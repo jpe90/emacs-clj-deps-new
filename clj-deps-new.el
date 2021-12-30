@@ -41,7 +41,6 @@
 
 (require 'transient)
 
-
 (defun clj-deps-new--assemble-command (command name opts)
   "Helper function for building the deps.new command string.
 COMMAND: string name of the deps.new command
@@ -77,7 +76,6 @@ ARGLIST: a plist of values that are substituted into the macro."
         ("-o" "Don't overwrite existing projects" ":overwrite false" :class transient-switch)]
        ["Actions"
         (,(intern (format "execute-%s"  (plist-get arglist :name))))])))
-
 
 (clj-deps-new-def--transients (:name "app" :description "Create an Application" :prompt "Application name: "))
 (clj-deps-new-def--transients (:name "lib" :description "Create a Library" :prompt "Library name: "))
