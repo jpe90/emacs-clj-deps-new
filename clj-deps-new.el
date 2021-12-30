@@ -25,7 +25,9 @@
 ;; This is a small wrapper around the deps.new tool for creating deps.edn
 ;; Clojure projects from templates.
 ;;
-;; It provides access to the  built in deps.new templates via `clj-deps-new'
+;; It provides access to the  built in deps.new templates via `clj-deps-new'.
+;; The command will display a series of on-screen prompts to allow the user to
+;; interactively select arguments, preview their output, and build projects.
 ;;
 ;; You can also create transient prefixes and suffixes to access your own custom
 ;; templates.
@@ -64,8 +66,10 @@ ARGLIST: a plist of values that are substituted into the macro."
        :description ,(plist-get arglist :description)
        (interactive (list (transient-args transient-current-command)))
        (let* ((name (read-string ,(plist-get arglist :prompt)))
-              (display-name (concat ":name " name)))
-         (shell-command (clj-deps-new--assemble-command ,(plist-get arglist :name) display-name opts))))
+              (display-name (concat ":name " name))
+              (command (clj-deps-new--assemble-command ,(plist-get arglist :name) display-name opts)))
+         (message "Executing command `%s' in %s" command default-directory)
+         (shell-command command)))
      (transient-define-prefix ,(intern (format "new-%s"  (plist-get arglist :name))) ()
        ,(format "Create a new %s" (plist-get arglist :name))
        ["Opts"

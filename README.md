@@ -14,7 +14,8 @@ Ensure [tools.deps](https://github.com/clojure/tools.deps.alpha) and [deps-new](
 
 # Usage
 
-Run command clj-deps-new (e.g. from M-x) and follow the on-screen prompts to create a project.
+Run `M-x clj-deps-new` and follow the on-screen prompts to create a project. 
+When opts are enabled, the text in parenthesis display a preview of the argument that will be passed to the final command.
 
 # Preview
 
