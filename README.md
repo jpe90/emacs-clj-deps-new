@@ -28,9 +28,9 @@ When opts are enabled, the text in parenthesis display a preview of the argument
 
 If you've defined your own deps.new templates and wish to include them in this extension, you can do so without modifying the supplied lisp file.
 
-You'll want to familiarize yourself with the basics of Transient. The [Developer Quick Start Manual](https://github.com/magit/transient/wiki/Developer-Quick-Start-Guide) and [Transient Manual](https://magit.vc/manual/transient.html#Defining-New-Commands) are good places to get started. In particular, note the section on [modifying existing transients](https://magit.vc/manual/transient.html#Modifying-Existing-Transients).
+You'll want to familiarize yourself with the basics of Transient. The [Developer Quick Start Manual](https://github.com/magit/transient/wiki/Developer-Quick-Start-Guide) and [Transient Manual](https://magit.vc/manual/transient.html#Defining-New-Commands) are good places to get started. In particular, note the section on [modifying existing transients](https://magit.vc/manual/transient.html#Modifying-Existing-Transients). 
 
-As a quick example, you can add a silly entry to the Prefix list by evaluating the following expression: 
+When adding new transient prefixes, you'll want to modify symbol `'clj-deps-new`, which refers to the prefix containing built-in deps.new commands. As a quick example, you can add a silly entry to the Prefix list by evaluating the following expression: 
 ```
 (transient-append-suffix 'clj-deps-new "p"
   '("h" "hello" (lambda () (interactive) (message "hello"))))
