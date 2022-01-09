@@ -9,7 +9,7 @@ Ensure [tools.deps](https://github.com/clojure/tools.deps.alpha) and [deps-new](
 ## Manual
 
 - Run `git clone https://github.com/jpe90/emacs-deps-new.git`
-- In emacs, run `package-load-file` and navigate to `clj-deps-new.el`
+- In emacs, run `package-install-file` and navigate to `clj-deps-new.el`
 - Place `(require 'clj-deps-new)` in your init file
 
 

@@ -41,6 +41,15 @@
 
 (require 'transient)
 
+(defclass transient-quoted-option (transient-option) ()
+  "Class used for escaping text entered by a user to opts for the deps-new cmd.")
+
+(cl-defmethod transient-infix-value ((obj transient-quoted-option))
+  "Shell-quote the VALUE in OBJ specified on TRANSIENT-QUOTED-OPTION."
+  (let ((value (oref obj value))
+        (arg (oref obj argument)))
+    (concat arg (shell-quote-argument value))))
+
 (defun clj-deps-new--assemble-command (command name opts)
   "Helper function for building the deps.new command string.
 COMMAND: string name of the deps.new command
@@ -65,14 +74,14 @@ ARGLIST: a plist of values that are substituted into the macro."
        :description ,(plist-get arglist :description)
        (interactive (list (transient-args transient-current-command)))
        (let* ((name (read-string ,(plist-get arglist :prompt)))
-              (display-name (concat ":name " name))
+              (display-name (concat ":name " (shell-quote-argument name)))
               (command (clj-deps-new--assemble-command ,(plist-get arglist :name) display-name opts)))
          (message "Executing command `%s' in %s" command default-directory)
          (shell-command command)))
      (transient-define-prefix ,(intern (format "new-%s"  (plist-get arglist :name))) ()
        ,(format "Create a new %s" (plist-get arglist :name))
        ["Opts"
-        ("-d" "Alternate project folder name (relative path, no trailing slash)" ":target-dir " :class transient-option)
+        ("-d" "Alternate project folder name (relative path, no trailing slash)" ":target-dir " :class transient-quoted-option)
         ("-o" "Don't overwrite existing projects" ":overwrite false" :class transient-switch)]
        ["Actions"
         (,(intern (format "execute-%s"  (plist-get arglist :name))))])))
