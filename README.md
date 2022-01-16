@@ -1,10 +1,17 @@
 # emacs-deps-new
 
+[![MELPA](https://melpa.org/packages/clj-deps-new-badge.svg)](https://melpa.org/#/clj-deps-new)
+
 Elisp wrapper around [deps.new](https://github.com/seancorfield/deps-new). Create Clojure projects from templates within Emacs.
 
 # Installation
 
 Ensure [tools.deps](https://github.com/clojure/tools.deps.alpha) and [deps-new](https://github.com/seancorfield/deps-new) are installed on your system.
+
+## MELPA 
+
+- Run `M-x package-install clj-deps-new`
+- If the package wasn't found, run `M-x package-refresh-contents`
 
 ## Manual
 
