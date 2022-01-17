@@ -32,9 +32,7 @@ When opts are enabled, the text in parenthesis display a preview of the argument
 ![emacs-deps-new](screenshot.png)
 
 
-# Extending
-
-If you've defined your own deps.new templates and wish to include them in this extension, you can do so without modifying the supplied lisp file.
+# Adding Additional Templates
 
 You'll want to familiarize yourself with the basics of Transient. The [Developer Quick Start Manual](https://github.com/magit/transient/wiki/Developer-Quick-Start-Guide) and [Transient Manual](https://magit.vc/manual/transient.html#Defining-New-Commands) are good places to get started. In particular, note the section on [modifying existing transients](https://magit.vc/manual/transient.html#Modifying-Existing-Transients). 
 
