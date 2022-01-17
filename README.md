@@ -12,6 +12,7 @@ Ensure [tools.deps](https://github.com/clojure/tools.deps.alpha) and [deps-new](
 
 - Run `M-x package-install clj-deps-new`
 - If the package wasn't found, run `M-x package-refresh-contents`
+- Place `(require 'clj-deps-new)` in your init file
 
 ## Manual
 
