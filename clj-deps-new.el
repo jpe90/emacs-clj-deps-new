@@ -25,15 +25,17 @@
 ;; This is a small wrapper around the deps.new tool for creating deps.edn
 ;; Clojure projects from templates.
 ;;
-;; It provides access to the  built in deps.new templates via `clj-deps-new'.
-;; The command will display a series of on-screen prompts to allow the user to
-;; interactively select arguments, preview their output, and build projects.
+;; It provides access to built-in and some additional commmunity deps.new and
+;; clj-new templates via `clj-deps-new'. The command displays a series of
+;; on-screen prompts allowing the user to interactively select arguments,
+;; preview their output, and create projects.
 ;;
 ;; You can also create transient prefixes and suffixes to access your own custom
 ;; templates. (see https://github.com/jpe90/emacs-deps-new#extending)
 ;; 
-;; It requires external utilities 'tools.build' and 'deps.new' to be installed.
-;; See https://github.com/seancorfield/deps-new for installation instructions.
+;; It requires external utilities 'tools.build', 'deps.new', and 'clj-new' to be
+;; installed. See https://github.com/seancorfield/deps-new for installation
+;; instructions.
 ;; 
 ;; Requires transient.el to be loaded.
 
@@ -43,13 +45,17 @@
 
 (defcustom clj-deps-new-clj-new-alias
   "clj-new"
-  "The Clojure CLI tools alias referring to the clj-new tool"
+  "The Clojure CLI tools alias referring to the clj-new tool. You can find this
+by running \"clojure -Ttools list\" or in your user deps.edn, depending on how
+you installed it."
   :type 'string
   :safe #'stringp)
 
 (defcustom clj-deps-new-deps-new-alias
   "new"
-  "The Clojure CLI tools alias referring to the clj-new tool"
+  "The Clojure CLI tools alias referring to the clj-new tool. You can find this
+by running \"clojure -Ttools list\" or in your user deps.edn, depending on how
+you installed it."
   :type 'string
   :safe #'stringp)
 
