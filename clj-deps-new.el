@@ -41,6 +41,18 @@
 
 (require 'transient)
 
+(defcustom clj-deps-new-clj-new-alias
+  "clj-new"
+  "The Clojure CLI tools alias referring to the clj-new tool"
+  :type 'string
+  :safe #'stringp)
+
+(defcustom clj-deps-new-deps-new-alias
+  "new"
+  "The Clojure CLI tools alias referring to the clj-new tool"
+  :type 'string
+  :safe #'stringp)
+
 (defclass transient-quoted-option (transient-option) ()
   "Class used for escaping text entered by a user to opts for the deps-new cmd.")
 
@@ -50,12 +62,12 @@
         (arg (oref obj argument)))
     (concat arg (shell-quote-argument value))))
 
-(defun clj-deps-new--assemble-command (command name opts)
+(defun clj-deps-new--assemble-command (command alias name opts)
   "Helper function for building the deps.new command string.
 COMMAND: string name of the deps.new command
 NAME: a string consisting of the keyword :name followed by the project name
 OPTS: keyword - string pairs provided to the template by the user"
-  (concat "clojure -Tnew " command " " name " " (mapconcat #'append opts " ")))
+  (concat "clojure -T" alias " " command " " name " " (mapconcat #'append opts " ")))
 
 ;; This macro generates prefixes and suffixes for each of the built-in
 ;; deps.new commands. A macro was chosen over writing out the prefixes and
@@ -75,7 +87,7 @@ ARGLIST: a plist of values that are substituted into the macro."
        (interactive (list (transient-args transient-current-command)))
        (let* ((name (read-string ,(plist-get arglist :prompt)))
               (display-name (concat ":name " (shell-quote-argument name)))
-              (command (clj-deps-new--assemble-command ,(plist-get arglist :name) display-name opts)))
+              (command (clj-deps-new--assemble-command ,(plist-get arglist :name) ,clj-deps-new-deps-new-alias display-name opts)))
          (message "Executing command `%s' in %s" command default-directory)
          (shell-command command)))
      (transient-define-prefix ,(intern (format "new-%s"  (plist-get arglist :name))) ()
