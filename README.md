@@ -2,7 +2,7 @@
 
 [![MELPA](https://melpa.org/packages/clj-deps-new-badge.svg)](https://melpa.org/#/clj-deps-new)
 
-Elisp wrapper around [deps.new](https://github.com/seancorfield/deps-new) and [clj-new](https://github.com/seancorfield/clj-new). Create Clojure projects from templates within Emacs. 
+Elisp wrapper around [deps-new](https://github.com/seancorfield/deps-new) and [clj-new](https://github.com/seancorfield/clj-new). Create Clojure projects from templates within Emacs. 
 
 ![emacs-deps-new](screenshot.png)
 

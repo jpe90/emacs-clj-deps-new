@@ -22,10 +22,10 @@
 
 ;;; Commentary:
 
-;; This is a small wrapper around the deps.new and clj-new tools for creating
+;; This is a small wrapper around the deps-new and clj-new tools for creating
 ;; Clojure projects from templates.
 ;;
-;; It provides access to built-in and some additional commmunity deps.new and
+;; It provides access to built-in and some additional commmunity deps-new and
 ;; clj-new templates via `clj-deps-new'.  The command displays a series of
 ;; on-screen prompts allowing the user to interactively select arguments,
 ;; preview their output, and create projects.
@@ -33,7 +33,7 @@
 ;; You can also create transient prefixes and suffixes to access your own custom
 ;; templates.  (see https://github.com/jpe90/emacs-deps-new#extending)
 ;; 
-;; It requires external utilities 'tools.build', 'deps.new', and 'clj-new' to be
+;; It requires external utilities 'tools.build', 'deps-new', and 'clj-new' to be
 ;; installed.  See https://github.com/seancorfield/deps-new for installation
 ;; instructions.
 ;;
@@ -54,7 +54,7 @@
 ;;;                    Customization variables
 
 (defgroup clj-deps-new nil
-  "Wrapper for clj-new and deps.new."
+  "Wrapper for clj-new and deps-new."
   :group 'clj-deps-new)
 
 (defcustom clj-deps-new-clj-new-alias
@@ -95,14 +95,14 @@ you manually added it there."
 
 
 (defun clj-deps-new--assemble-command (command name opts)
-  "Helper function for building the deps.new command string.
+  "Helper function for building the deps-new command string.
 COMMAND: string name of the command
 NAME: a string consisting of the keyword :name followed by the project name
 OPTS: keyword - string pairs provided to the template by the user"
   (concat "clojure -T" clj-deps-new-deps-new-alias " " command " " name " " (mapconcat #'append opts " ")))
 
 (defmacro clj-deps-new-def--transients (arglist)
-  "Create the prefix and suffix transients for the built-in deps.new commands.
+  "Create the prefix and suffix transients for the built-in deps-new commands.
 ARGLIST: a plist of values that are substituted into the macro."
   `(progn
      (transient-define-suffix
@@ -146,7 +146,7 @@ ARGLIST: a plist of values that are substituted into the macro."
                                      :prompt "Project name: "))
 
 (transient-define-prefix clj-deps-new-deps-builtins ()
-  "Generate a project using deps.new."
+  "Generate a project using deps-new."
   ["Select a generation template"
    ("a" "Application" new-app)
    ("l" "Library" new-lib)
@@ -227,7 +227,7 @@ ARGLIST: a plist of values that are substituted into the macro."
 ;; When adding your own custom commands, you probably want to append additional
 ;; transients to this prefix.
 (transient-define-prefix clj-deps-new ()
-  "Generate a project using deps.new."
+  "Generate a project using deps-new."
   ["Create a new project"
    ("d" "Deps-new built-in templates" clj-deps-new-deps-builtins)
    ("k" "Kit web application" kit-template-prefix)
