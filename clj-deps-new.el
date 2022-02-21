@@ -26,20 +26,20 @@
 ;; Clojure projects from templates.
 ;;
 ;; It provides access to built-in and some additional commmunity deps.new and
-;; clj-new templates via `clj-deps-new'. The command displays a series of
+;; clj-new templates via `clj-deps-new'.  The command displays a series of
 ;; on-screen prompts allowing the user to interactively select arguments,
 ;; preview their output, and create projects.
 ;;
 ;; You can also create transient prefixes and suffixes to access your own custom
-;; templates. (see https://github.com/jpe90/emacs-deps-new#extending)
+;; templates.  (see https://github.com/jpe90/emacs-deps-new#extending)
 ;; 
 ;; It requires external utilities 'tools.build', 'deps.new', and 'clj-new' to be
-;; installed. See https://github.com/seancorfield/deps-new for installation
+;; installed.  See https://github.com/seancorfield/deps-new for installation
 ;; instructions.
 ;;
 ;; This code assumes you installed 'clj-new' and 'deps-new' as tools using
 ;; the names 'clj-new' and 'new', respectively, as recommended in the
-;; documentation for those tools. If you used different names or are
+;; documentation for those tools.  If you used different names or are
 ;; specifying aliases in your deps.edn, be sure to customize the variables
 ;; `clj-deps-new-clj-new-alias' and `clj-deps-new-deps-new-alias' to
 ;; match your setup.
@@ -59,20 +59,20 @@
 
 (defcustom clj-deps-new-clj-new-alias
   "clj-new"
-  "The Clojure CLI tools alias referring to the clj-new tool. You can find this
-by either running \"clojure -Ttools list\" if you installed with
-\"clojure -Ttools install\", or finding the aliases your user deps.edn if you
-manually added it there."
+  "The Clojure CLI tools alias referring to the clj-new tool.
+You can find this by either running \"clojure -Ttools list\" if you installed
+with \"clojure -Ttools install\", or finding the aliases your user deps.edn if
+you manually added it there."
   :group 'clj-deps-new
   :type 'string
   :safe #'stringp)
 
 (defcustom clj-deps-new-deps-new-alias
   "new"
-  "The Clojure CLI tools alias referring to the clj-new tool. You can find this
-by either running \"clojure -Ttools list\" if you installed with
-\"clojure -Ttools install\", or finding the aliases your user deps.edn if you
-manually added it there."
+  "The Clojure CLI tools alias referring to the clj-new tool.
+You can find this by either running \"clojure -Ttools list\" if you installed
+with \"clojure -Ttools install\", or finding the aliases your user deps.edn if
+you manually added it there."
   :group 'clj-deps-new
   :type 'string
   :safe #'stringp)
@@ -94,12 +94,12 @@ manually added it there."
 ;;;                    Deps-new built-in templates
 
 
-(defun clj-deps-new--assemble-command (command alias name opts)
+(defun clj-deps-new--assemble-command (command name opts)
   "Helper function for building the deps.new command string.
-COMMAND: string name of the deps.new command
+COMMAND: string name of the command
 NAME: a string consisting of the keyword :name followed by the project name
 OPTS: keyword - string pairs provided to the template by the user"
-  (concat "clojure -T" alias " " command " " name " " (mapconcat #'append opts " ")))
+  (concat "clojure -T" clj-deps-new-deps-new-alias " " command " " name " " (mapconcat #'append opts " ")))
 
 (defmacro clj-deps-new-def--transients (arglist)
   "Create the prefix and suffix transients for the built-in deps.new commands.
@@ -116,7 +116,6 @@ ARGLIST: a plist of values that are substituted into the macro."
               (display-name (concat ":name " (shell-quote-argument name)))
               (command (clj-deps-new--assemble-command
                         ,(plist-get arglist :name)
-                        clj-deps-new-deps-new-alias
                         display-name
                         opts)))
          (message "Executing command `%s' in %s" command default-directory)
@@ -161,7 +160,7 @@ ARGLIST: a plist of values that are substituted into the macro."
 
 (transient-define-suffix kit-template-suffix
     (&optional opts)
-    "Create kit webapp" :key "c" :description "Create the Kit web application"
+    "Create kit webapp." :key "c" :description "Create the Kit web application"
     (interactive
      (list
       (transient-args transient-current-command)))
@@ -176,7 +175,7 @@ ARGLIST: a plist of values that are substituted into the macro."
       (message "Executing command `%s' in %s" command default-directory)
       (shell-command command)))
 
-(transient-define-prefix kit-template-prefix nil "Create a kit web application"
+(transient-define-prefix kit-template-prefix nil "Create a kit web application."
   ["Arguments"
    [
     ("-x" "Adds the kit-xtdb lib" "+xtdb" :class transient-switch)
@@ -202,10 +201,9 @@ ARGLIST: a plist of values that are substituted into the macro."
 ;; http://cryogenweb.org
 
 (transient-define-suffix cryogen-template-suffix ()
-    "Create kit webapp" :key "c" :description "Create the Cryogen static site"
+  "Create kit webapp." :key "c" :description "Create the Cryogen static site"
     (interactive
-     (list
-      (transient-args transient-current-command)))
+     ())
     (let*
         ((name (shell-quote-argument (read-string "Project Name:")))
          (command (concat
@@ -217,7 +215,7 @@ ARGLIST: a plist of values that are substituted into the macro."
       (message "Executing command `%s' in %s" command default-directory)
       (shell-command command)))
 
-(transient-define-prefix cryogen-template-prefix nil "Create a static site with Cryogen"
+(transient-define-prefix cryogen-template-prefix nil "Create a static site with Cryogen."
   ["Actions"
      (cryogen-template-suffix)])
 
