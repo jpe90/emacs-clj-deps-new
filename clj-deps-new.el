@@ -53,6 +53,9 @@
 ;;; =====================================================================
 ;;;                    Customization variables
 
+(defgroup clj-deps-new nil
+  "Wrapper for clj-new and deps.new."
+  :group 'clj-deps-new)
 
 (defcustom clj-deps-new-clj-new-alias
   "clj-new"
@@ -60,6 +63,7 @@
 by either running \"clojure -Ttools list\" if you installed with
 \"clojure -Ttools install\", or finding the aliases your user deps.edn if you
 manually added it there."
+  :group 'clj-deps-new
   :type 'string
   :safe #'stringp)
 
@@ -69,6 +73,7 @@ manually added it there."
 by either running \"clojure -Ttools list\" if you installed with
 \"clojure -Ttools install\", or finding the aliases your user deps.edn if you
 manually added it there."
+  :group 'clj-deps-new
   :type 'string
   :safe #'stringp)
 
@@ -196,8 +201,7 @@ ARGLIST: a plist of values that are substituted into the macro."
 ;; Cryogen Static Site Generator
 ;; http://cryogenweb.org
 
-(transient-define-suffix cryogen-template-suffix
-    (&optional opts)
+(transient-define-suffix cryogen-template-suffix ()
     "Create kit webapp" :key "c" :description "Create the Cryogen static site"
     (interactive
      (list
