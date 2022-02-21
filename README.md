@@ -6,26 +6,17 @@ Elisp wrapper around [deps.new](https://github.com/seancorfield/deps-new) and [c
 
 ![emacs-deps-new](screenshot.png)
 
-# Community Templates
+# Included Community Templates
 
-This project includes the following community templates:
+- [Kit Web Application Framework](https://kit-clj.github.io): A new web framework from the author of Luminus
 
-## [Kit Web Application Framework](https://kit-clj.github.io)
+- [Cryogen Static Site Generator](http://cryogenweb.org): A Clojure static site generator
 
-A new web framework from the author of Luminus
-
-## [Cryogen Static Site Generator](http://cryogenweb.org)
-
-A Clojure static site generator
-
-If you have a template that you think would be useful for others, feel free to submit a PR with additional transients or submit an issue with a link to the template.
+If you have a template that you think would be useful for others, feel free to submit a PR with additional menu options or submit an issue with a link to the template.
 
 # Installation
 
 ## Dependencies
-
-You will need:
-
 - A version of Clojure that includes [Clojure CLI Tools](https://github.com/clojure/tools.deps.alpha) (comes included in any recent version)
 - [deps-new](https://github.com/seancorfield/deps-new) available on your system
 - [clj-new](https://github.com/seancorfield/clj-new) available on your system. 
@@ -55,6 +46,6 @@ When opts are enabled, the text in parenthesis display a preview of the argument
 
 # Extending
 
-See the `Community Templates` section of q`clj-deps-new.el` to see how to add new templates to the interface.
+See the `Community Templates` section of `clj-deps-new.el` to see how to add new templates to the interface.
 
 You may to familiarize yourself with the basics of Transient. The [Developer Quick Start Manual](https://github.com/magit/transient/wiki/Developer-Quick-Start-Guide) and [Transient Manual](https://magit.vc/manual/transient.html#Defining-New-Commands) are good places to get started. In particular, note the section on [modifying existing transients](https://magit.vc/manual/transient.html#Modifying-Existing-Transients). 
