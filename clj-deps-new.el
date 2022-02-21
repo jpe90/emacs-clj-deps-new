@@ -185,7 +185,8 @@ ARGLIST: a plist of values that are substituted into the macro."
     ("-m" "Adds the kit-metrics lib" "+metrics" :class transient-switch)
     ("-q" "Adds the kit-quartz lib" "+quartz" :class transient-switch)
     ("-d" "Adds the kit-redis lib" "+redis" :class transient-switch)
-    ("-s" "Adds the kit-selmner lib" "+selmer" :class transient-switch)]
+    ("-s" "Adds the kit-selmner lib" "+selmer" :class transient-switch)
+    ("-p" "Adds the kit-postgres lib" "+postgres" :class transient-switch)]
    [("-n" "Adds the kit-nrepl lib" "+nrepl" :class transient-switch)
     ("-r" "Adds the kit-repl lib" "+socket-repl" :class transient-switch)
     ("-c" "Adds the kit-sql-conman lib" "+conman" :class transient-switch)
