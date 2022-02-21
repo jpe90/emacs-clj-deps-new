@@ -1,8 +1,24 @@
-# emacs-deps-new
+# emacs-clj-deps-new
 
 [![MELPA](https://melpa.org/packages/clj-deps-new-badge.svg)](https://melpa.org/#/clj-deps-new)
 
 Elisp wrapper around [deps.new](https://github.com/seancorfield/deps-new) and [clj-new](https://github.com/seancorfield/clj-new). Create Clojure projects from templates within Emacs. 
+
+![emacs-deps-new](screenshot.png)
+
+# Community Templates
+
+This project includes the following community templates:
+
+## [Kit Web Application Framework](https://kit-clj.github.io)
+
+A new web framework from the author of Luminus
+
+## [Cryogen Static Site Generator](http://cryogenweb.org)
+
+A Clojure static site generator
+
+If you have a template that you think would be useful for others, feel free to submit a PR with additional transients or submit an issue with a link to the template.
 
 # Installation
 
@@ -32,25 +48,10 @@ You will need:
 - In emacs, run `package-install-file` and navigate to `clj-deps-new.el`
 - Place `(require 'clj-deps-new)` in your init file
 
-
 # Usage
 
 Run `M-x clj-deps-new` and follow the on-screen prompts to create a project. 
 When opts are enabled, the text in parenthesis display a preview of the argument that will be passed to the final command.
-
-
-# Preview
-
-![emacs-deps-new](screenshot.png)
-
-# Community Templates
-
-This project includes the following community templates:
-
-- [Kit Web Application Framework](https://kit-clj.github.io)
-- [Cryogen Static Site Generator](http://cryogenweb.org)
-
-If you have a template that you think would be useful for others, feel free to submit a PR with additional transients or submit an issue with a link to the template.
 
 # Extending
 
