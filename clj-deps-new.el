@@ -116,7 +116,7 @@ ARGLIST: a plist of values that are substituted into the macro."
               (display-name (concat ":name " (shell-quote-argument name)))
               (command (clj-deps-new--assemble-command
                         ,(plist-get arglist :name)
-                        ,clj-deps-new-deps-new-alias
+                        clj-deps-new-deps-new-alias
                         display-name
                         opts)))
          (message "Executing command `%s' in %s" command default-directory)
