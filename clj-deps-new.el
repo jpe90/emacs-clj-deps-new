@@ -4,7 +4,7 @@
 
 ;; Author: jpe90 <eskinjp@gmail.com>
 ;; URL: https://github.com/jpe90/emacs-deps-new
-;; Version: 1.0
+;; Version: 1.1
 ;; Package-Requires: ((emacs "25.1" ) (transient "0.3.7"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -37,7 +37,12 @@
 ;; installed. See https://github.com/seancorfield/deps-new for installation
 ;; instructions.
 ;;
-;; This code assumes you 
+;; This code assumes you installed 'clj-new' and 'deps-new' as tools using
+;; the names 'clj-new' and 'new', respectively, as recommended in the
+;; documentation for those tools. If you used different names or are
+;; specifying aliases in your deps.edn, be sure to customize the variables
+;; `clj-deps-new-clj-new-alias' and `clj-deps-new-deps-new-alias' to
+;; match your setup.
 ;; 
 ;; Requires transient.el to be loaded.
 
@@ -157,14 +162,14 @@ ARGLIST: a plist of values that are substituted into the macro."
       (transient-args transient-current-command)))
     (let*
         ((name (shell-quote-argument (read-string "Project Name:")))
-         (kit-command (concat
+         (command (concat
                        "clojure -T"
                        clj-deps-new-clj-new-alias
                        " create :template io.github.kit-clj :name "
                        name
                        " :args '[" (mapconcat #'append opts " ") "]'")))
-      (message "Executing command `%s' in %s" kit-command default-directory)
-      (shell-command kit-command)))
+      (message "Executing command `%s' in %s" command default-directory)
+      (shell-command command)))
 
 (transient-define-prefix kit-template-prefix nil "Create a kit web application"
   ["Arguments"
@@ -188,6 +193,30 @@ ARGLIST: a plist of values that are substituted into the macro."
     ["Actions"
      (kit-template-suffix)])
 
+;; Cryogen Static Site Generator
+;; http://cryogenweb.org
+
+(transient-define-suffix cryogen-template-suffix
+    (&optional opts)
+    "Create kit webapp" :key "c" :description "Create the Cryogen static site"
+    (interactive
+     (list
+      (transient-args transient-current-command)))
+    (let*
+        ((name (shell-quote-argument (read-string "Project Name:")))
+         (command (concat
+                   "clojure -Sdeps '{:deps {io.github.cryogen-project/cryogen
+{:git/tag \"0.6.6\" :git/sha \"fcb2833\"}}}' -T"
+                       clj-deps-new-deps-new-alias
+                       " create :template org.cryogenweb/new :name "
+                       name)))
+      (message "Executing command `%s' in %s" command default-directory)
+      (shell-command command)))
+
+(transient-define-prefix cryogen-template-prefix nil "Create a static site with Cryogen"
+  ["Actions"
+     (cryogen-template-suffix)])
+
 ;;; =====================================================================
 ;;;                    Main Command
 
@@ -197,7 +226,8 @@ ARGLIST: a plist of values that are substituted into the macro."
   "Generate a project using deps.new."
   ["Create a new project"
    ("d" "Deps-new built-in templates" clj-deps-new-deps-builtins)
-   ("k" "Kit web application" kit-template-prefix)])
+   ("k" "Kit web application" kit-template-prefix)
+   ("c" "Cryogen static site generator" cryogen-template-prefix)])
 
 (provide 'clj-deps-new)
 ;;; clj-deps-new.el ends here
