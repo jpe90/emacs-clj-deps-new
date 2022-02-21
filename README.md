@@ -45,7 +45,12 @@ When opts are enabled, the text in parenthesis display a preview of the argument
 
 # Community Templates
 
-This project includes some useful templates provided by the community. If you have a template that you think would be useful for others, feel free to submit a PR with additional transients or submit an issue with a link to the template.
+This project includes the following community templates:
+
+- [Kit Web Application Framework](https://kit-clj.github.io)
+- [Cryogen Static Site Generator](http://cryogenweb.org)
+
+If you have a template that you think would be useful for others, feel free to submit a PR with additional transients or submit an issue with a link to the template.
 
 # Extending
 
