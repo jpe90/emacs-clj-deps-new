@@ -129,7 +129,9 @@ ARGLIST: a plist of values that are substituted into the macro."
         ("-o" "Don't overwrite existing projects" ":overwrite false" :class transient-switch)]
        ["Actions"
         (,(intern (format "execute-%s"  (plist-get arglist :name))))])))
-
+(clj-deps-new-def--transients (:name "app"
+                                     :description "Create an Application"
+                                     :prompt "Application name: "))
 (clj-deps-new-def--transients (:name "lib"
                                      :description "Create a Library"
                                      :prompt "Library name: "))
@@ -165,7 +167,7 @@ ARGLIST: a plist of values that are substituted into the macro."
      (list
       (transient-args transient-current-command)))
     (let*
-        ((name (shell-quote-argument (read-string "Project Name:")))
+        ((name (shell-quote-argument (read-string "Project Name: ")))
          (command (concat
                        "clojure -T"
                        clj-deps-new-clj-new-alias
@@ -205,7 +207,7 @@ ARGLIST: a plist of values that are substituted into the macro."
     (interactive
      ())
     (let*
-        ((name (shell-quote-argument (read-string "Project Name:")))
+        ((name (shell-quote-argument (read-string "Project Name: ")))
          (command (concat
                    "clojure -Sdeps '{:deps {io.github.cryogen-project/cryogen
 {:git/tag \"0.6.6\" :git/sha \"fcb2833\"}}}' -T"
