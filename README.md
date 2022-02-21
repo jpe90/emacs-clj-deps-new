@@ -49,6 +49,6 @@ This project includes some useful templates provided by the community. If you ha
 
 # Extending
 
-See the `Community Templates` section of `clj-deps-new.el` to see how to add new templates to the interface.
+See the `Community Templates` section of q`clj-deps-new.el` to see how to add new templates to the interface.
 
 You may to familiarize yourself with the basics of Transient. The [Developer Quick Start Manual](https://github.com/magit/transient/wiki/Developer-Quick-Start-Guide) and [Transient Manual](https://magit.vc/manual/transient.html#Defining-New-Commands) are good places to get started. In particular, note the section on [modifying existing transients](https://magit.vc/manual/transient.html#Modifying-Existing-Transients). 
