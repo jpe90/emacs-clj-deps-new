@@ -22,7 +22,7 @@
 
 ;;; Commentary:
 
-;; This is a small wrapper around the deps.new tool for creating deps.edn
+;; This is a small wrapper around the deps.new and clj-new tools for creating
 ;; Clojure projects from templates.
 ;;
 ;; It provides access to built-in and some additional commmunity deps.new and
@@ -36,6 +36,8 @@
 ;; It requires external utilities 'tools.build', 'deps.new', and 'clj-new' to be
 ;; installed. See https://github.com/seancorfield/deps-new for installation
 ;; instructions.
+;;
+;; This code assumes you 
 ;; 
 ;; Requires transient.el to be loaded.
 
@@ -43,30 +45,44 @@
 
 (require 'transient)
 
+;;; =====================================================================
+;;;                    Customization variables
+
+
 (defcustom clj-deps-new-clj-new-alias
   "clj-new"
   "The Clojure CLI tools alias referring to the clj-new tool. You can find this
-by running \"clojure -Ttools list\" or in your user deps.edn, depending on how
-you installed it."
+by either running \"clojure -Ttools list\" if you installed with
+\"clojure -Ttools install\", or finding the aliases your user deps.edn if you
+manually added it there."
   :type 'string
   :safe #'stringp)
 
 (defcustom clj-deps-new-deps-new-alias
   "new"
   "The Clojure CLI tools alias referring to the clj-new tool. You can find this
-by running \"clojure -Ttools list\" or in your user deps.edn, depending on how
-you installed it."
+by either running \"clojure -Ttools list\" if you installed with
+\"clojure -Ttools install\", or finding the aliases your user deps.edn if you
+manually added it there."
   :type 'string
   :safe #'stringp)
 
+;;; =====================================================================
+;;;                    Transient Extensions
+
+
 (defclass transient-quoted-option (transient-option) ()
-  "Class used for escaping text entered by a user to opts for the deps-new cmd.")
+  "Class used for escaping text entered by a user to opts for the command.")
 
 (cl-defmethod transient-infix-value ((obj transient-quoted-option))
   "Shell-quote the VALUE in OBJ specified on TRANSIENT-QUOTED-OPTION."
   (let ((value (oref obj value))
         (arg (oref obj argument)))
     (concat arg (shell-quote-argument value))))
+
+;;; =====================================================================
+;;;                    Deps-new built-in templates
+
 
 (defun clj-deps-new--assemble-command (command alias name opts)
   "Helper function for building the deps.new command string.
@@ -75,40 +91,48 @@ NAME: a string consisting of the keyword :name followed by the project name
 OPTS: keyword - string pairs provided to the template by the user"
   (concat "clojure -T" alias " " command " " name " " (mapconcat #'append opts " ")))
 
-;; This macro generates prefixes and suffixes for each of the built-in
-;; deps.new commands. A macro was chosen over writing out the prefixes and
-;; suffixes separately because they share nearly identical arguments, and the macro
-;; significantly cuts down on boilerplate.
-;;
-;; When adding your own commands, it's recommended to add prefixes and suffixes
-;; separately and not use this macro.
 (defmacro clj-deps-new-def--transients (arglist)
   "Create the prefix and suffix transients for the built-in deps.new commands.
 ARGLIST: a plist of values that are substituted into the macro."
   `(progn
-     (transient-define-suffix ,(intern (format "execute-%s"  (plist-get arglist :name))) (&optional opts)
+     (transient-define-suffix
+       ,(intern (format "execute-%s"  (plist-get arglist :name)))
+       (&optional opts)
        ,(format "Create the %s" (plist-get arglist :name))
        :key "c"
        :description ,(plist-get arglist :description)
        (interactive (list (transient-args transient-current-command)))
        (let* ((name (read-string ,(plist-get arglist :prompt)))
               (display-name (concat ":name " (shell-quote-argument name)))
-              (command (clj-deps-new--assemble-command ,(plist-get arglist :name) ,clj-deps-new-deps-new-alias display-name opts)))
+              (command (clj-deps-new--assemble-command
+                        ,(plist-get arglist :name)
+                        ,clj-deps-new-deps-new-alias
+                        display-name
+                        opts)))
          (message "Executing command `%s' in %s" command default-directory)
          (shell-command command)))
      (transient-define-prefix ,(intern (format "new-%s"  (plist-get arglist :name))) ()
        ,(format "Create a new %s" (plist-get arglist :name))
        ["Opts"
-        ("-d" "Alternate project folder name (relative path, no trailing slash)" ":target-dir " :class transient-quoted-option)
+        ("-d" "Alternate project folder name (relative path, no trailing slash)"
+         ":target-dir "
+         :class transient-quoted-option)
         ("-o" "Don't overwrite existing projects" ":overwrite false" :class transient-switch)]
        ["Actions"
         (,(intern (format "execute-%s"  (plist-get arglist :name))))])))
 
-(clj-deps-new-def--transients (:name "app" :description "Create an Application" :prompt "Application name: "))
-(clj-deps-new-def--transients (:name "lib" :description "Create a Library" :prompt "Library name: "))
-(clj-deps-new-def--transients (:name "template" :description "Create a Template" :prompt "Template name: "))
-(clj-deps-new-def--transients (:name "scratch" :description "Create a Minimal \"scratch\" Project" :prompt "Scratch name: "))
-(clj-deps-new-def--transients (:name "pom" :description "Create a pom.xml file" :prompt "Project name: "))
+(clj-deps-new-def--transients (:name "lib"
+                                     :description "Create a Library"
+                                     :prompt "Library name: "))
+(clj-deps-new-def--transients (:name "template"
+                                     :description "Create a Template"
+                                     :prompt "Template name: "))
+(clj-deps-new-def--transients (:name "scratch"
+                                     :description "Create a Minimal \"scratch\" Project"
+                                     :prompt "Scratch name: "))
+(clj-deps-new-def--transients (:name "pom"
+                                     :description "Create a pom.xml file"
+                                     :prompt "Project name: "))
 
 (transient-define-prefix clj-deps-new-deps-builtins ()
   "Generate a project using deps.new."
@@ -119,13 +143,61 @@ ARGLIST: a plist of values that are substituted into the macro."
    ("s" "Scratch" new-scratch)
    ("p" "pom.xml" new-pom)])
 
-;; This transient prefix references transient prefixes for built-in deps.new
-;; commands generated by the macro. When adding your own custom commands,
-;; you should append additional transients to this prefix.
+;;; =====================================================================
+;;;                    Community Templates
+
+;; Kit Web Framework
+;; https://kit-clj.github.io
+
+(transient-define-suffix kit-template-suffix
+    (&optional opts)
+    "Create kit webapp" :key "c" :description "Create the Kit web application"
+    (interactive
+     (list
+      (transient-args transient-current-command)))
+    (let*
+        ((name (shell-quote-argument (read-string "Project Name:")))
+         (kit-command (concat
+                       "clojure -T"
+                       clj-deps-new-clj-new-alias
+                       " create :template io.github.kit-clj :name "
+                       name
+                       " :args '[" (mapconcat #'append opts " ") "]'")))
+      (message "Executing command `%s' in %s" kit-command default-directory)
+      (shell-command kit-command)))
+
+(transient-define-prefix kit-template-prefix nil "Create a kit web application"
+  ["Arguments"
+   [
+    ("-x" "Adds the kit-xtdb lib" "+xtdb" :class transient-switch)
+    ("-h" "Adds the kit-hato lib" "+hato" :class transient-switch)
+    ("-m" "Adds the kit-metrics lib" "+metrics" :class transient-switch)
+    ("-q" "Adds the kit-quartz lib" "+quartz" :class transient-switch)
+    ("-d" "Adds the kit-redis lib" "+redis" :class transient-switch)
+    ("-s" "Adds the kit-selmner lib" "+selmer" :class transient-switch)]
+   [("-n" "Adds the kit-nrepl lib" "+nrepl" :class transient-switch)
+    ("-r" "Adds the kit-repl lib" "+socket-repl" :class transient-switch)
+    ("-c" "Adds the kit-sql-conman lib" "+conman" :class transient-switch)
+    ("-k" "Adds the kit-sql-hikari lib" "+hikari" :class transient-switch)
+    ("-g" "Adds the kit-sql-migratus lib" "+migratus" :class transient-switch)
+    ("-y" "Adds the kit-mysql lib" "+mysql" :class transient-switch)
+    ]]
+  [("-f" "Adds the libs kit-xtdb, kit-hato , kit-metrics, kit-quartz, kit-redis,
+ kit-selmer , kit-repl, kit-sql-conman, kit-postgres, and kit-sql-migratus
+" "+full" :class transient-switch)]
+    ["Actions"
+     (kit-template-suffix)])
+
+;;; =====================================================================
+;;;                    Main Command
+
+;; When adding your own custom commands, you probably want to append additional
+;; transients to this prefix.
 (transient-define-prefix clj-deps-new ()
   "Generate a project using deps.new."
-  ["Select a generation template"
-   ("d" "Deps-new built-in templates" clj-deps-new-deps-builtins)])
+  ["Create a new project"
+   ("d" "Deps-new built-in templates" clj-deps-new-deps-builtins)
+   ("k" "Kit web application" kit-template-prefix)])
 
 (provide 'clj-deps-new)
 ;;; clj-deps-new.el ends here
