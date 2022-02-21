@@ -8,9 +8,9 @@ Elisp wrapper around [deps.new](https://github.com/seancorfield/deps-new) and [c
 
 # Included Community Templates
 
-- [Kit Web Application Framework](https://kit-clj.github.io): A new web framework from the author of Luminus
+- [Kit Web Application Framework](https://kit-clj.github.io)
 
-- [Cryogen Static Site Generator](http://cryogenweb.org): A Clojure static site generator
+- [Cryogen Static Site Generator](http://cryogenweb.org)
 
 If you have a template that you think would be useful for others, feel free to submit a PR with additional menu options or submit an issue with a link to the template.
 
