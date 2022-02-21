@@ -4,7 +4,7 @@
 
 Elisp wrapper around [deps-new](https://github.com/seancorfield/deps-new) and [clj-new](https://github.com/seancorfield/clj-new). Create Clojure projects from templates within Emacs. 
 
-![emacs-deps-new](screenshot.png)
+![emacs-deps-new](https://user-images.githubusercontent.com/9307830/155034282-30af7d71-c3db-410d-ab7f-8d667f0c98fd.png)
 
 # Included Community Templates
 
@@ -33,7 +33,8 @@ If you have a template that you think would be useful for others, feel free to s
 - If the package wasn't found, run `M-x package-refresh-contents`
 - Place `(require 'clj-deps-new)` in your init file
 
-## Manual Installation
+## Manual Installation!
+
 
 - Run `git clone https://github.com/jpe90/emacs-deps-new.git`
 - In emacs, run `package-install-file` and navigate to `clj-deps-new.el`
