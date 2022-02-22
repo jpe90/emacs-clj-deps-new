@@ -33,7 +33,7 @@ If you have a template that you think would be useful for others, feel free to s
 - If the package wasn't found, run `M-x package-refresh-contents`
 - Place `(require 'clj-deps-new)` in your init file
 
-## Manual Installation!
+## Manual Installation
 
 
 - Run `git clone https://github.com/jpe90/emacs-deps-new.git`
