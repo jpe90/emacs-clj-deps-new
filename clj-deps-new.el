@@ -227,6 +227,7 @@ ARGLIST: a plist of values that are substituted into the macro."
 
 ;; When adding your own custom commands, you probably want to append additional
 ;; transients to this prefix.
+;;;###autoload (autoload 'clj-deps-new "clj-deps-new" nil t)
 (transient-define-prefix clj-deps-new ()
   "Generate a project using deps-new."
   ["Create a new project"
