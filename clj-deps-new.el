@@ -123,10 +123,7 @@ ARGLIST: a plist of values that are substituted into the macro."
      (transient-define-prefix ,(intern (format "new-%s"  (plist-get arglist :name))) ()
        ,(format "Create a new %s" (plist-get arglist :name))
        ["Opts"
-        ("-d" "Alternate project folder name (relative path, no trailing slash)"
-         ":target-dir "
-         :class transient-quoted-option)
-        ("-o" "Don't overwrite existing projects" ":overwrite false" :class transient-switch)]
+        ("-o" "Overwrite existing projects" ":overwrite true" :class transient-switch)]
        ["Actions"
         (,(intern (format "execute-%s"  (plist-get arglist :name))))])))
 (clj-deps-new-def--transients (:name "app"
