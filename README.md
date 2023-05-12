@@ -23,9 +23,9 @@ If you have a template that you think would be useful for others, feel free to s
 
 `deps-new` and `clj-new` can be installed with the following commands:
 
-`clojure -Ttools install io.github.seancorfield/deps-new '{:git/tag "v0.4.9"}' :as new`
+`clojure -Ttools install io.github.seancorfield/deps-new '{:git/tag "v0.5.2"}' :as new`
 
-`clojure -Ttools install com.github.seancorfield/clj-new '{:git/tag "v1.2.381"}' :as clj-new`
+`clojure -Ttools install com.github.seancorfield/clj-new '{:git/tag "v1.2.399"}' :as clj-new`
 
 ## MELPA 
 
