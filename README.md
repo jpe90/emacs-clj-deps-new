@@ -24,6 +24,7 @@ If you have a template that you think would be useful for others, feel free to s
 `deps-new` and `clj-new` can be installed as "tools" (Clojure CLI 1.11.1.1149 or later) with the following commands:
 
 `clojure -Ttools install-latest :lib io.github.seancorfield/deps-new :as new`
+
 `clojure -Ttools install-latest :lib com.github.seancorfield/clj-new :as clj-new`
 
 ## MELPA
