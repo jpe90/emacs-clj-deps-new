@@ -19,19 +19,30 @@ If you have a template that you think would be useful for others, feel free to s
 ## Dependencies
 - A version of Clojure that includes [Clojure CLI Tools](https://github.com/clojure/tools.deps.alpha) (comes included in any recent version)
 - [deps-new](https://github.com/seancorfield/deps-new) available on your system
-- [clj-new](https://github.com/seancorfield/clj-new) available on your system. 
+- [clj-new](https://github.com/seancorfield/clj-new) available on your system.
 
-`deps-new` and `clj-new` can be installed with the following commands:
+`deps-new` and `clj-new` can be installed as "tools" (Clojure CLI 1.11.1.1149 or later) with the following commands:
 
-`clojure -Ttools install io.github.seancorfield/deps-new '{:git/tag "v0.5.2"}' :as new`
+`clojure -Ttools install-latest :lib io.github.seancorfield/deps-new :as new`
 
-`clojure -Ttools install com.github.seancorfield/clj-new '{:git/tag "v1.2.399"}' :as clj-new`
+`clojure -Ttools install-latest :lib com.github.seancorfield/clj-new :as clj-new`
 
-## MELPA 
+## MELPA
 
 - Run `M-x package-install clj-deps-new`
 - If the package wasn't found, run `M-x package-refresh-contents`
 - Place `(require 'clj-deps-new)` in your init file
+
+### Using use-package
+
+Put this expression in your config file and eval:
+
+```elisp
+(use-package clj-deps-new
+  :ensure t
+  :defer t)
+```
+
 
 ## Manual Installation
 
